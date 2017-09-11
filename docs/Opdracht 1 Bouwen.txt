@@ -1,0 +1,16 @@
+Wat is er voor nodig?
+Hardware
+- Glazen kast voor het hoofd
+- 2 cameraatjes die in de ogen van het beeld passen
+- Beeld
+- Water tank
+- Slangen
+- Pomp
+- Arduino
+- Computer/laptop
+Software
+- OpenFrameworks
+- Arduino IDE
+- Visual Studio IDE
+Hoe zou ik dit bouwen?
+Als eerst zou ik ervoor zorgen dat de camera’s in de ogen aangesloten zijn op een computer met gezichtsherkenning. Ook moet de camera de afstand tussen de persoon en het hoofd weten, zodat hij alleen spuit als de kijker pal tegen het glas aan zit. De pomp zou ik aansluiten op een Arduino die vervolgens weer aangesloten is op een laptop/computer in de sokkel van het beeld. Als de aangesloten camera’s merken dat iemand naar de ogen van het beeld kijkt, gaat de pomp pompen voor een paar seconden. 
