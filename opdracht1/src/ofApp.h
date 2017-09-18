@@ -2,7 +2,7 @@
 
 #include "ofMain.h"
 #include "Ball.h"
-#define NBALLS 10
+#define NBALLS 20
 
 class ofApp : public ofBaseApp{
 

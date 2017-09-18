@@ -10,7 +10,7 @@ void Ball::setup()
 	speedY = ofRandom(-3, 3);
 
 	radius = 40;
-
+	color.set(ofRandom(255), ofRandom(255), ofRandom(255));
 }
 
 //--------------------------------------------------------------
@@ -40,6 +40,6 @@ void Ball::update()
 //--------------------------------------------------------------
 void Ball::draw()
 {
-	ofSetColor(ofColor(ofRandom(0, 255), ofRandom(0, 255), ofRandom(0, 255)));
+	ofSetColor(color);
 	ofDrawCircle(x, y, radius);
 }
