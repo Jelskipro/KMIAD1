@@ -59,7 +59,9 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-
+	if (balls.size() > 0) {
+		balls.pop_back();
+	}
 }
 
 //--------------------------------------------------------------
