@@ -11,6 +11,8 @@ void ofApp::setup() {
 
 	speedX = 20;
 	speedY = 20;
+
+	ofSetLogLevel(OF_LOG_NOTICE);
 }
 
 //--------------------------------------------------------------
