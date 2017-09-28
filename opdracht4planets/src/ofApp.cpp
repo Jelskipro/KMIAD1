@@ -24,8 +24,6 @@ void ofApp::setup(){
 	
 
 	rotationPoint = ofVec3f(0, 0, 0);
-
-	color = ofColor::greenYellow;
 	
 	ofDisableArbTex();
 	earthTexture.loadImage("earth.png");
@@ -61,8 +59,9 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
 	gui.draw();
-
 	ofEnableDepthTest();
+	ofDisableAlphaBlending();
+
 	cam.begin();
 
 	if (drawGrid) ofDrawGrid(200);
@@ -85,12 +84,12 @@ void ofApp::draw(){
 
 	sun.orbit(0, 0, 0, rotationPoint);
 	sunTexture.getTextureReference().bind();
-	//sun.draw();
+	sun.draw();
 
 	starDestroyer.drawFaces();
 
-	ofSetColor(ofColor::seaGreen);
-	ofDrawSphere(Lx, Ly, Lz, 200);
+	//sphere from point light
+	//ofDrawSphere(Lx, Ly, Lz, 200);
 
 	cam.end();
 	ofDisableDepthTest();
