@@ -89,8 +89,13 @@ void ofApp::keyPressed(int key){
 		Planet planet;
 		planet.setup(20, rotateX, rotateY, rotateZ, 1, 0, 500, 1, ofVec3f(xRotPos, 150, zRotPos), ofColor::aliceBlue);
 		planets.push_back(planet);
+	}	
+	
+	if (key == 'd') {
+		if (planets.size() > 0) {
+			planets.pop_back();
+		}
 	}
-
 }
 
 //--------------------------------------------------------------
