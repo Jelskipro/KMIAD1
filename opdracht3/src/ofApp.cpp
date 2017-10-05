@@ -67,12 +67,12 @@ void ofApp::analogPinChanged(const int& pin) {
 	//ofLog() << "Analog pin" << pin << "value : " << arduino.getAnalog(pin) / 19 << endl;
 }
 void ofApp::digitalPinChanged(const int& pin) {
-	//ofLog() << "Digital pin" << pin << "value : " << arduino.getDigital(pin) << endl;
+	ofLog() << "Digital pin" << pin << "value : " << arduino.getDigital(pin) << endl;
 	if (arduino.getDigital(pin) == 1)
 	{
 		
 		Ball myBall;
-		myBall.setup(radius, speedX, speedY, color);
+		myBall.setup(30, speedX, speedY, color);
 		balls.push_back(myBall);
 	}
 }
