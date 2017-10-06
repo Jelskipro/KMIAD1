@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "ofxCvHaarFinder.h"
 #include "ofxCvFaceRec.h"
+#include "ofxCv.h"
 
 #define SCALE 2
 #define TEST_DIV 2
