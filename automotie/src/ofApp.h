@@ -2,42 +2,36 @@
 
 #include "ofMain.h"
 #include "ofxGui.h"
-
+#include "smilley.h"
+#include "ofxCvHaarFinder.h"
+#include "ofxOpenCv.h"  
 
 class ofApp : public ofBaseApp{
 
 	public:
+		smilley smilley;
 		void setup();
 		void update();
 		void draw();
-
 		void keyPressed(int key);
-		//Maybe later needed for setting Arduino Thingy to low
-		//void keyReleased(int key);
-		bool isTalking;
 
-	private:
-		ofArduino arduino; 
+		bool isTalking;
+		bool personInSight;
+
+		ofParameter<string> text;
+
 		ofSoundPlayer response1;
 		ofSoundPlayer response2;
-		ofVideoPlayer smilleyTalking;
 
-		//Basic expressions
-		ofImage smilleyHappy;
-		ofImage smilleyAngry;
-		ofImage smilleyMeh;
-		ofImage smilleyScared;
-		ofImage smilleySad;
-		ofImage smilleyHearth;
-		//Cry frames
-		ofImage smilleyCry1;
-		ofImage smilleyCry2;
-		ofImage smilleyCry3;
-		//Talk frames
-		ofImage smilleyTalk1;
-		ofImage smilleyTalk2;
-		ofImage smilleyTalk3;
-		ofImage smilleyTalk4;
+		ofImage colorImg;
+		ofImage grayImage;
+		
+		ofTrueTypeFont font;
+		ofVideoGrabber vidGrabber;
+		ofxCvHaarFinder finder;
+		ofxCvHaarFinder eyeFinder;
+	private:
+		ofArduino arduino; 
 
 		void setupArduino(const int& version);
 

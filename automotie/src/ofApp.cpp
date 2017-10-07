@@ -9,45 +9,103 @@ void ofApp::setup(){
 	arduino.sendFirmwareVersionRequest();
 
 	ofSetLogLevel(OF_LOG_NOTICE);
-
+	
 	response1.load("response1.mp3");
 	response2.load("response2.mp3");
-
-	smilleyTalking.load("Talk1.mov");
-	smilleyTalking.play();
-	smilleyHappy.load("Emotions/HappyB.png");
-
+	smilley.setup();
 	isTalking = false;
+
+	font.load("Neuzeit Grotesk Bold.ttf", 250, true, true, false, 0.3f, 0);
+
+	//Haar finder setup
+	finder.setup("haarcascade_frontalface_default.xml");
+	eyeFinder.setup("haarcascade_eye.xml");
+
+	vidGrabber.setVerbose(true);
+	vidGrabber.initGrabber(320, 240);
+	colorImg.allocate(320, 240, OF_IMAGE_COLOR);
+	grayImage.allocate(320, 240, OF_IMAGE_GRAYSCALE);
+
+	personInSight = false;
 }
 
 void ofApp::update(){
 	arduino.update();
-	smilleyTalking.update();
+	smilley.update();
+	
+	//Haar finder update
+	vidGrabber.update();
+
+	if (vidGrabber.isFrameNew())
+	{
+		auto pixels = vidGrabber.getPixels();
+
+		colorImg.setFromPixels(pixels.getData(), 320, 240, OF_IMAGE_COLOR, false);
+		grayImage = colorImg;
+
+		finder.findHaarObjects(grayImage);
+		eyeFinder.findHaarObjects(grayImage);
+
+	}
 }
 
 void ofApp::draw(){
-	smilleyHappy.draw(0, 0, 512, 512);
-	if (isTalking != true)
+	
+	//Haar finder draw
+	ofSetHexColor(0xffffff);
+	colorImg.draw(0, 0);
+
+	ofNoFill();
+	for (unsigned int i = 0; i < finder.blobs.size(); i++)
 	{
-		smilleyTalking.draw(999, 999, 512, 512);
+		ofRectangle cur = finder.blobs[i].boundingRect;
+		ofRect(cur.x, cur.y, cur.width, cur.height);
+	
+	}
+	for (unsigned int i = 0; i < eyeFinder.blobs.size(); i++)
+	{
+		ofSetHexColor(0xff0c49);
+		ofRectangle cur = eyeFinder.blobs[i].boundingRect;
+		ofRect(cur.x, cur.y, cur.width, cur.height);
+
+	}
+	if (finder.blobs.size() > 0 && eyeFinder.blobs.size() > 0)
+	{
+		personInSight = true;
+		text = "Hi!";
+	}
+	else
+	{
+		personInSight = false;
+		text = "Bye!";
+	}
+
+	if (response1.isPlaying() == false || response2.isPlaying() == false)
+	{
+		isTalking = false;
 
 	}
 	if (response1.isPlaying() || response2.isPlaying())
 	{
 		isTalking = true;
-		smilleyTalking.draw(0, 0, 512, 512);
 	}
+	smilley.draw(isTalking);
+	ofSetColor(ofColor::black);
+	font.drawString(text, 0, 600);
+
 }
 
 void ofApp::keyPressed(int key){
 	if (key == '1') {
 		response2.stop();
 		response1.play();
+
 	}
 	if (key == '2') {
 		response1.stop();
 		response2.play();
 	}
+
 }
 
 void ofApp::setupArduino(const int& version) {
