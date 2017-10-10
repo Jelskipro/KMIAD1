@@ -14,7 +14,7 @@ void smilley::update() {
 
 }
 void smilley::draw(bool isTalking) {
-	smilleyHappy.draw(350, 0, 512, 512);
+	smilleyHappy.draw(350, 380, 512, 512);
 	
 	if (isTalking != true)
 	{
@@ -23,7 +23,7 @@ void smilley::draw(bool isTalking) {
 	}
 	if (isTalking == true)
 	{
-		smilleyTalking.draw(350, 0, 512, 512);
+		smilleyTalking.draw(350, 380, 512, 512);
 	}
 
 }

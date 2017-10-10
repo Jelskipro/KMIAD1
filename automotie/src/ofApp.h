@@ -14,30 +14,42 @@ class ofApp : public ofBaseApp{
 		void update();
 		void draw();
 		void keyPressed(int key);
+		void keyReleased(int key);
 
 		bool isTalking;
+		bool hasCustomer;
 		bool personInFront;
 		bool personWalkingBy;
 
 		ofParameter<string> text;
-
-		ofSoundPlayer response1;
-		ofSoundPlayer response2;
-
 		ofTrueTypeFont font;
-	
+		ofSoundPlayer responseHoi;
+		ofSoundPlayer responseHallo;
+
 		//Close by cam
 		ofImage colorImg;
 		ofImage grayImage;
 		ofVideoGrabber vidGrabber;
 		ofxCvHaarFinder finder;
-		ofxCvHaarFinder eyeFinder;
+		//Timer to prevent false positives
+		float startTime;
+		float endTime;
+		float timer;
 
 		//Walk by cam1
 		ofImage colorImgWalk1;
 		ofImage grayImageWalk1;
 		ofVideoGrabber GrabberwalkBy1;
 		ofxCvHaarFinder FinderwalkBy1;
+		//Timer to prevent false positives
+		float startTimewalkBy1;
+		float endTimewalkBy1;
+		float timerwalkBy1;
+
+		//Timer to prevent too much greetings
+		float startTimeCoolDown;
+		float endTimeCoolDown;
+		float timerCoolDown;
 
 	private:
 		ofArduino arduino; 

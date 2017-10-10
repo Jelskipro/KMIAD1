@@ -9,18 +9,15 @@ void ofApp::setup(){
 
 	ofSetLogLevel(OF_LOG_NOTICE);
 	
-	response1.load("response1.mp3");
-	response2.load("response2.mp3");
-
 	smilley.setup();
 	isTalking = false;
 
 	font.load("Neuzeit Grotesk Bold.ttf", 56, true, true, false, 0.3f, 0);
+	responseHoi.load("hoi.mp3");
+	responseHallo.load("hallo.mp3");
 
 	//Close by cam setup
-	finder.setup("haarcascade_frontalface_default.xml");
-	eyeFinder.setup("haarcascade_eye.xml");
-
+	finder.setup("haarcascade_eye.xml");
 	vidGrabber.listDevices();
 	vidGrabber.setVerbose(true);
 	vidGrabber.setDeviceID(0);
@@ -30,9 +27,12 @@ void ofApp::setup(){
 
 	personInFront = false;
 
+	//Close by cam timer setup
+	startTime = ofGetElapsedTimeMillis();
+	endTime = 25000;
+
 	//Walk by cam setup
 	FinderwalkBy1.setup("haarcascade_upperbody.xml");
-	
 	GrabberwalkBy1.listDevices();
 	GrabberwalkBy1.setVerbose(true);
 	GrabberwalkBy1.setDeviceID(1);
@@ -42,6 +42,13 @@ void ofApp::setup(){
 
 	personWalkingBy = false;
 
+	//Walk by cam timer setup
+	startTimewalkBy1 = ofGetElapsedTimeMillis();
+	endTimewalkBy1 = 10000;
+	
+	//Cool down timer setup
+	startTimeCoolDown = ofGetElapsedTimeMillis();
+	endTimeCoolDown = 100000;
 }
 
 void ofApp::update(){
@@ -59,7 +66,6 @@ void ofApp::update(){
 		grayImage = colorImg;
 
 		finder.findHaarObjects(grayImage);
-		eyeFinder.findHaarObjects(grayImage);
 
 	}
 	GrabberwalkBy1.update();
@@ -85,16 +91,10 @@ void ofApp::draw(){
 	ofNoFill();
 	for (unsigned int i = 0; i < finder.blobs.size(); i++)
 	{
+		
 		ofRectangle cur = finder.blobs[i].boundingRect;
 		ofRect(cur.x, cur.y, cur.width, cur.height);
 	
-	}
-	for (unsigned int i = 0; i < eyeFinder.blobs.size(); i++)
-	{
-		ofSetHexColor(0xff0c49);
-		ofRectangle cur = eyeFinder.blobs[i].boundingRect;
-		ofRect(cur.x, cur.y, cur.width, cur.height);
-
 	}
 	
 	//Walk by cam draw
@@ -107,47 +107,65 @@ void ofApp::draw(){
 		ofRect(cur.x + 400, cur.y, cur.width, cur.height);
 
 	}
+
+	
 	if (FinderwalkBy1.blobs.size() > 0)
 	{
-		personWalkingBy = true;
-		text = "Person walking by";
+		//Start timer to check if it is actually a person
+		timerwalkBy1 = ofGetElapsedTimeMillis() - startTimewalkBy1;
+
 	}
-	else if (FinderwalkBy1.blobs.size() == 0 || finder.blobs.size() == 0 && eyeFinder.blobs.size() == 0)
+	else if (FinderwalkBy1.blobs.size() == 0 || finder.blobs.size() == 0)
 	{
 		personWalkingBy = false;
+		personInFront = false;
+		timerwalkBy1 = 0;
+		timer = 0;
 		text = "Nothing";
+
 	}
-	if (finder.blobs.size() > 0 && eyeFinder.blobs.size() > 0)
+	if (finder.blobs.size() > 0)
 	{
+		//Start timer to check if it is actually a person
+		timer = ofGetElapsedTimeMillis() - startTime;
+	}
+
+	if (timerwalkBy1 >= endTimewalkBy1 && !personWalkingBy) {
+		personWalkingBy = true;
+		ofSetColor(ofColor::green);
+		text = "Person walking by";
+		if (timerCoolDown >= endTimeCoolDown && responseHoi.isPlaying() == false)
+		{
+			
+		}
+		responseHoi.play();
+		timerCoolDown = ofGetElapsedTimeMillis() - startTimeCoolDown;
+	}
+	else if (timer >= endTime && !personInFront) {
 		personInFront = true;
+		ofSetColor(ofColor::blue);
 		text = "Person in front";
+		if (responseHallo.isPlaying() == false) {
+			responseHallo.play();
+		}
 	}
 
-	if (response1.isPlaying() == false || response2.isPlaying() == false)
-	{
-		isTalking = false;
-
-	}
-	if (response1.isPlaying() || response2.isPlaying())
-	{
-		isTalking = true;
-	}
-
-	//smilley.draw(isTalking);
+	smilley.draw(isTalking);
 	ofSetColor(ofColor::black);
 	font.drawString(text, 0, 600);
 
 }
 
 void ofApp::keyPressed(int key){
-	if (key == '1') {
-		response2.stop();
-		response1.play();
-
+	if (key == 'f') {
+		isTalking = true;
 	}
-	if (key == '2') {
-		response1.stop();
-		response2.play();
+
+}
+void ofApp::keyReleased(int key) {
+	if (key == 'f') {
+		isTalking = false;
+		timerCoolDown = 0;
 	}
 
 }
