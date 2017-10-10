@@ -16,20 +16,29 @@ class ofApp : public ofBaseApp{
 		void keyPressed(int key);
 
 		bool isTalking;
-		bool personInSight;
+		bool personInFront;
+		bool personWalkingBy;
 
 		ofParameter<string> text;
 
 		ofSoundPlayer response1;
 		ofSoundPlayer response2;
 
+		ofTrueTypeFont font;
+	
+		//Close by cam
 		ofImage colorImg;
 		ofImage grayImage;
-		
-		ofTrueTypeFont font;
 		ofVideoGrabber vidGrabber;
 		ofxCvHaarFinder finder;
 		ofxCvHaarFinder eyeFinder;
+
+		//Walk by cam1
+		ofImage colorImgWalk1;
+		ofImage grayImageWalk1;
+		ofVideoGrabber GrabberwalkBy1;
+		ofxCvHaarFinder FinderwalkBy1;
+
 	private:
 		ofArduino arduino; 
 
