@@ -7,16 +7,16 @@
 #include "ofxOpenCv.h"  
 
 class ofApp : public ofBaseApp{
-
 	public:
-		smilley smilley;
 		void setup();
 		void update();
 		void draw();
 		void keyPressed(int key);
 		void keyReleased(int key);
 
-		bool isTalking;
+		shared_ptr<smilley> isTalking;
+		shared_ptr<smilley> smilleyTalking;
+
 		bool hasCustomer;
 		bool personInFront;
 		bool personWalkingBy;
@@ -25,6 +25,8 @@ class ofApp : public ofBaseApp{
 		ofTrueTypeFont font;
 		ofSoundPlayer responseHoi;
 		ofSoundPlayer responseHallo;
+		ofSoundPlayer responseGoedeKeuze;
+		ofSoundPlayer responseOokGoedeKeuze;
 
 		//Close by cam
 		ofImage colorImg;

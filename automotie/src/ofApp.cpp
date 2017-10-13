@@ -3,18 +3,20 @@
 #define DRINK_BUTTON2 12
 
 void ofApp::setup(){
-		//&ofApp::setupArduino);
-	//arduino.connect("COM5");
-	//arduino.sendFirmwareVersionRequest();
+	ofAddListener(arduino.EInitialized, this,
+		&ofApp::setupArduino);
+	arduino.connect("COM5");
+	arduino.sendFirmwareVersionRequest();
 
 	ofSetLogLevel(OF_LOG_NOTICE);
 	
-	smilley.setup();
-	isTalking = false;
+	//isTalking = false;
 
 	font.load("Neuzeit Grotesk Bold.ttf", 56, true, true, false, 0.3f, 0);
 	responseHoi.load("hoi.mp3");
 	responseHallo.load("hallo.mp3");
+	responseGoedeKeuze.load("GoedeKeuze.mp3");
+	responseOokGoedeKeuze.load("OokGoedeKeuze.mp3");
 
 	//Close by cam setup
 	finder.setup("haarcascade_eye.xml");
@@ -29,7 +31,7 @@ void ofApp::setup(){
 
 	//Close by cam timer setup
 	startTime = ofGetElapsedTimeMillis();
-	endTime = 25000;
+	endTime = 20000;
 
 	//Walk by cam setup
 	FinderwalkBy1.setup("haarcascade_upperbody.xml");
@@ -44,17 +46,15 @@ void ofApp::setup(){
 
 	//Walk by cam timer setup
 	startTimewalkBy1 = ofGetElapsedTimeMillis();
-	endTimewalkBy1 = 10000;
+	endTimewalkBy1 = 20000;
 	
 	//Cool down timer setup
 	startTimeCoolDown = ofGetElapsedTimeMillis();
 	endTimeCoolDown = 100000;
 }
-
 void ofApp::update(){
-	//arduino.update();
-	smilley.update();
-	
+	arduino.update();
+
 	//Haar finder update
 	vidGrabber.update();
 
@@ -66,7 +66,6 @@ void ofApp::update(){
 		grayImage = colorImg;
 
 		finder.findHaarObjects(grayImage);
-
 	}
 	GrabberwalkBy1.update();
 
@@ -78,10 +77,8 @@ void ofApp::update(){
 		grayImageWalk1 = colorImgWalk1;
 
 		FinderwalkBy1.findHaarObjects(grayImageWalk1);
-
 	}
 }
-
 void ofApp::draw(){
 	
 	//Close by cam draw
@@ -107,7 +104,6 @@ void ofApp::draw(){
 		ofRect(cur.x + 400, cur.y, cur.width, cur.height);
 
 	}
-
 	
 	if (FinderwalkBy1.blobs.size() > 0)
 	{
@@ -122,7 +118,6 @@ void ofApp::draw(){
 		timerwalkBy1 = 0;
 		timer = 0;
 		text = "Nothing";
-
 	}
 	if (finder.blobs.size() > 0)
 	{
@@ -150,49 +145,43 @@ void ofApp::draw(){
 		}
 	}
 
-	smilley.draw(isTalking);
 	ofSetColor(ofColor::black);
 	font.drawString(text, 0, 600);
 
 }
-
 void ofApp::keyPressed(int key){
 	if (key == 'f') {
-		isTalking = true;
+		isTalking->isTalking = true;
 	}
-
 }
 void ofApp::keyReleased(int key) {
 	if (key == 'f') {
-		isTalking = false;
-		timerCoolDown = 0;
+		isTalking->isTalking = false;
+		//TODO sort out coolDown timer!!!!!!
+		//timerCoolDown = 0;
 	}
+}
+void ofApp::setupArduino(const int& version) {
+	ofLog() << "Arduino firmware found " << arduino.getFirmwareName()
+		<< arduino.getMajorFirmwareVersion()
+		<< arduino.getMinorFirmwareVersion() << endl;
+
+	arduino.sendDigitalPinMode(DRINK_BUTTON1, ARD_INPUT);
+	arduino.sendDigitalPinMode(DRINK_BUTTON2, ARD_INPUT);
+
+	ofAddListener(arduino.EDigitalPinChanged, this, &ofApp::digitalPinChanged);
 
 }
 
-//void ofApp::setupArduino(const int& version) {
-	//ofLog() << "Arduino firmware found " << arduino.getFirmwareName()
-		//<< arduino.getMajorFirmwareVersion()
-		//<< arduino.getMinorFirmwareVersion() << endl;
-
-	//arduino.sendDigitalPinMode(DRINK_BUTTON1, ARD_INPUT);
-	//arduino.sendDigitalPinMode(DRINK_BUTTON2, ARD_INPUT);
-
-	//ofAddListener(arduino.EDigitalPinChanged, this, &ofApp::digitalPinChanged);
-
-//}
-
-//void ofApp::digitalPinChanged(const int& pin) {
-	//ofLog() << "Digital Pin " << pin << " value: " << arduino.getDigital(pin) << endl;
+void ofApp::digitalPinChanged(const int& pin) {
+	ofLog() << "Digital Pin " << pin << " value: " << arduino.getDigital(pin) << endl;
 	
-	//if (arduino.getDigital(12) == 1)
-	//{
-		//response2.stop();
-		//response1.play();
-	//}
-	//if (arduino.getDigital(11) == 1)
-	//{
-		//response1.stop();
-		//response2.play();
-	//}
-//}
+	if (arduino.getDigital(12) == 1 && responseOokGoedeKeuze.isPlaying() == false)
+	{
+		responseGoedeKeuze.play();
+	}
+	if (arduino.getDigital(11) == 1 && responseGoedeKeuze.isPlaying() == false)
+	{
+		responseOokGoedeKeuze.play();
+	}
+}

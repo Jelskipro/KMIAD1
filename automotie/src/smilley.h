@@ -3,12 +3,11 @@
 #include "ofMain.h"
 
 
-class smilley
-{
+class smilley : public ofBaseApp {
 public:
 	void setup();
 	void update();
-	void draw(bool isTalking);
+	void draw();
 	
 	bool isTalking;
 
@@ -20,5 +19,6 @@ public:
 	ofImage smilleyAngry;
 	ofImage smilleyMeh;
 	ofImage smilleyScared;
+
 };
 

@@ -7,14 +7,14 @@ void smilley::setup() {
 	smilleyTalking.load("Talk1.mov");
 	smilleyTalking.play();
 	smilleyHappy.load("Emotions/HappyB.png");
-
+	
 }
 void smilley::update() {
 	smilleyTalking.update();
-
+	
 }
-void smilley::draw(bool isTalking) {
-	smilleyHappy.draw(350, 380, 512, 512);
+void smilley::draw() {
+	smilleyHappy.draw(0, 0, 512, 512);
 	
 	if (isTalking != true)
 	{
@@ -23,7 +23,7 @@ void smilley::draw(bool isTalking) {
 	}
 	if (isTalking == true)
 	{
-		smilleyTalking.draw(350, 380, 512, 512);
+		smilleyTalking.draw(0, 0, 512, 512);
 	}
 
 }
