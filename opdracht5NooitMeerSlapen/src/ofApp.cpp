@@ -21,7 +21,6 @@ void ofApp::setup(){
 	sphere4.setPosition(100, 50, 30);
 	sphere4.mapTexCoordsFromTexture(grabber.getTexture());
 
-
 	light.setDirectional();
 	light.enable();
 }
@@ -29,6 +28,9 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
 	grabber.update();
+	
+
+
 }
 
 //--------------------------------------------------------------
@@ -45,6 +47,9 @@ void ofApp::draw(){
 	sphere2.draw();
 	sphere3.draw();
 	sphere4.draw();
+
+	//ofBackground(ofColor::black);
+	ofTranslate(ofGetWidth() / 2, ofGetHeight() / 2);
 
 	grabber.getTexture().unbind();
 

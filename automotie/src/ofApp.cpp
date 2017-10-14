@@ -119,7 +119,7 @@ void ofApp::draw(){
 		timer = 0;
 		text = "Nothing";
 	}
-	if (finder.blobs.size() > 0)
+	if (finder.blobs.size() > 1)
 	{
 		//Start timer to check if it is actually a person
 		timer = ofGetElapsedTimeMillis() - startTime;
@@ -129,19 +129,22 @@ void ofApp::draw(){
 		personWalkingBy = true;
 		ofSetColor(ofColor::green);
 		text = "Person walking by";
-		if (timerCoolDown >= endTimeCoolDown && responseHoi.isPlaying() == false)
+
+		if (responseHoi.isPlaying() == false)
 		{
-			
+			ofLog() << "Walker" << endl;
+			responseHoi.play();
+			timerCoolDown = 0;
 		}
-		responseHoi.play();
 		timerCoolDown = ofGetElapsedTimeMillis() - startTimeCoolDown;
+
 	}
 	else if (timer >= endTime && !personInFront) {
 		personInFront = true;
 		ofSetColor(ofColor::blue);
 		text = "Person in front";
 		if (responseHallo.isPlaying() == false) {
-			responseHallo.play();
+			//responseHallo.play();
 		}
 	}
 
@@ -152,6 +155,24 @@ void ofApp::draw(){
 void ofApp::keyPressed(int key){
 	if (key == 'f') {
 		isTalking->isTalking = true;
+	}
+	if (key == '7') {
+		smilleyState->smilleyState = MyState::HAPPY;
+	}
+	if (key == '8') {
+		smilleyState->smilleyState = MyState::SAD;
+	}
+	if (key == '9') {
+		smilleyState->smilleyState = MyState::ANGRY;
+	}
+	if (key == '4') {
+		smilleyState->smilleyState = MyState::MEH;
+	}
+	if (key == '5') {
+		smilleyState->smilleyState = MyState::SCARED;
+	}
+	if (key == '6') {
+		smilleyState->smilleyState = MyState::LOVE;
 	}
 }
 void ofApp::keyReleased(int key) {

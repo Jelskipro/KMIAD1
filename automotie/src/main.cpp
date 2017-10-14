@@ -23,7 +23,7 @@ int main( ){
 	shared_ptr<smilley> smilley(new smilley);
 	mainApp->smilleyTalking = smilley;
 	mainApp->isTalking = smilley;
-
+	mainApp->smilleyState = smilley;
 
 	ofRunApp(smilleyWindow, smilley);
 	ofRunApp(mainWindow, mainApp);

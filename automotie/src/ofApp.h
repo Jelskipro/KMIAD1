@@ -13,7 +13,8 @@ class ofApp : public ofBaseApp{
 		void draw();
 		void keyPressed(int key);
 		void keyReleased(int key);
-
+		
+		shared_ptr<smilley> smilleyState;
 		shared_ptr<smilley> isTalking;
 		shared_ptr<smilley> smilleyTalking;
 
