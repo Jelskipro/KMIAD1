@@ -24,6 +24,7 @@ void smilley::update() {
 
 }
 void smilley::draw() {
+	ofSetBackgroundColor(ofColor::white);
 	switch (smilleyState) {
 	case MyState::HAPPY:
 		smilleyHappy.draw(0, 0, 1280, 1024);
@@ -57,7 +58,7 @@ void smilley::draw() {
 
 	if (isTalking != true)
 	{
-		smilleyTalking.draw(999, 999, 1280, 1024);
+		smilleyTalking.draw(999, 999, 0, 0);
 
 	}
 	if (isTalking == true)

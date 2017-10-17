@@ -21,9 +21,13 @@ class ofApp : public ofBaseApp{
 		bool hasCustomer;
 		bool personInFront;
 		bool personWalkingBy;
+		bool startCoolDown;
+		bool cooledDown;
+		bool manualTalk;
 
 		ofParameter<string> text;
 		ofTrueTypeFont font;
+		ofImage controls;
 		ofSoundPlayer responseHoi;
 		ofSoundPlayer responseHallo;
 		ofSoundPlayer responseGoedeKeuze;

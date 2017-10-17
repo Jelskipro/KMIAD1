@@ -13,6 +13,7 @@ void ofApp::setup(){
 	//isTalking = false;
 
 	font.load("Neuzeit Grotesk Bold.ttf", 56, true, true, false, 0.3f, 0);
+	controls.load("Controls.png");
 	responseHoi.load("hoi.mp3");
 	responseHallo.load("hallo.mp3");
 	responseGoedeKeuze.load("GoedeKeuze.mp3");
@@ -28,6 +29,8 @@ void ofApp::setup(){
 	grayImage.allocate(320, 240, OF_IMAGE_GRAYSCALE);
 
 	personInFront = false;
+	hasCustomer = false;
+	manualTalk = false;
 
 	//Close by cam timer setup
 	startTime = ofGetElapsedTimeMillis();
@@ -50,7 +53,7 @@ void ofApp::setup(){
 	
 	//Cool down timer setup
 	startTimeCoolDown = ofGetElapsedTimeMillis();
-	endTimeCoolDown = 100000;
+	endTimeCoolDown = 50000;
 }
 void ofApp::update(){
 	arduino.update();
@@ -80,10 +83,10 @@ void ofApp::update(){
 	}
 }
 void ofApp::draw(){
-	
 	//Close by cam draw
 	ofSetHexColor(0xffffff);
 	colorImg.draw(0, 0);
+	controls.draw(450, 350);
 
 	ofNoFill();
 	for (unsigned int i = 0; i < finder.blobs.size(); i++)
@@ -127,34 +130,58 @@ void ofApp::draw(){
 
 	if (timerwalkBy1 >= endTimewalkBy1 && !personWalkingBy) {
 		personWalkingBy = true;
-		ofSetColor(ofColor::green);
 		text = "Person walking by";
-
-		if (responseHoi.isPlaying() == false)
+		
+		startCoolDown = true;
+		
+		if (responseHoi.isPlaying() == false && manualTalk == false && personInFront == false && hasCustomer == false)
 		{
-			ofLog() << "Walker" << endl;
 			responseHoi.play();
-			timerCoolDown = 0;
+			ofLog() << "Hoi" << endl;
 		}
-		timerCoolDown = ofGetElapsedTimeMillis() - startTimeCoolDown;
-
+		
 	}
+
 	else if (timer >= endTime && !personInFront) {
 		personInFront = true;
-		ofSetColor(ofColor::blue);
 		text = "Person in front";
-		if (responseHallo.isPlaying() == false) {
-			//responseHallo.play();
+		
+		if (hasCustomer == false) {
+			if (responseHallo.isPlaying() == false && manualTalk == false) {
+				responseHallo.play();
+				ofLog() << "Hallo" << endl;
+			}
+			hasCustomer = true;
 		}
 	}
-
+	ofLog() << hasCustomer << endl;
 	ofSetColor(ofColor::black);
-	font.drawString(text, 0, 600);
-
+	font.drawString(text, 10, 600);
+	if (hasCustomer == true) {
+		font.drawString("HasCustomer", 10, 660);
+	}
 }
 void ofApp::keyPressed(int key){
-	if (key == 'f') {
+	if (key == OF_KEY_UP) {
 		isTalking->isTalking = true;
+		manualTalk = true;
+	}
+	if (key == 'g') {
+		//Toggle for manual
+		if (manualTalk == false) {
+		 	manualTalk = true;
+		}
+		else {
+			manualTalk = false;
+		}
+	}
+	//If customer walks away
+	if (key == '0') {
+		hasCustomer = false;
+	}
+	//If the front cam fails to detect a customer
+	if (key == '+') {
+		hasCustomer = true;
 	}
 	if (key == '7') {
 		smilleyState->smilleyState = MyState::HAPPY;
@@ -174,12 +201,13 @@ void ofApp::keyPressed(int key){
 	if (key == '6') {
 		smilleyState->smilleyState = MyState::LOVE;
 	}
+
 }
 void ofApp::keyReleased(int key) {
-	if (key == 'f') {
+	if (key == OF_KEY_UP) {
 		isTalking->isTalking = false;
-		//TODO sort out coolDown timer!!!!!!
-		//timerCoolDown = 0;
+		
+		manualTalk = false;
 	}
 }
 void ofApp::setupArduino(const int& version) {
