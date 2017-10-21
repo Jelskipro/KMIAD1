@@ -14,6 +14,7 @@ class ofApp : public ofBaseApp{
 		void keyPressed(int key);
 		void keyReleased(int key);
 		
+		//Get variables from smilley
 		shared_ptr<smilley> smilleyState;
 		shared_ptr<smilley> isTalking;
 		shared_ptr<smilley> smilleyTalking;
@@ -28,10 +29,10 @@ class ofApp : public ofBaseApp{
 		ofParameter<string> text;
 		ofTrueTypeFont font;
 		ofImage controls;
+
+		//Placeholder sounds
 		ofSoundPlayer responseHoi;
 		ofSoundPlayer responseHallo;
-		ofSoundPlayer responseGoedeKeuze;
-		ofSoundPlayer responseOokGoedeKeuze;
 
 		//Close by cam
 		ofImage colorImg;
@@ -52,18 +53,5 @@ class ofApp : public ofBaseApp{
 		float startTimewalkBy1;
 		float endTimewalkBy1;
 		float timerwalkBy1;
-
-		//Timer to prevent too much greetings
-		float startTimeCoolDown;
-		float endTimeCoolDown;
-		float timerCoolDown;
-
-	private:
-		ofArduino arduino; 
-
-		void setupArduino(const int& version);
-
-		void ofApp::digitalPinChanged(const int& pin);
-
 
 };

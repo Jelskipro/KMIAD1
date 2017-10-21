@@ -1,13 +1,9 @@
 #include "smilley.h"
 
 void smilley::setup() {
-	
-
 	//smilleyTalking.setPixelFormat(OF_PIXELS_RGBA);
 	smilleyTalking.load("Smilley/Talk1.mp4");
 	smilleyTalking.play();
-	//smilleyCrying.load("Smilley/Cry1.mp4");
-	//smilleyCrying.play();
 
 	smilleyHappy.load("Smilley/Happy.png");
 	smilleySad.load("Smilley/Sad.png");
@@ -20,7 +16,6 @@ void smilley::setup() {
 
 void smilley::update() {
 	smilleyTalking.update();
-	//smilleyCrying.update();
 
 }
 void smilley::draw() {
@@ -44,16 +39,6 @@ void smilley::draw() {
 	case MyState::LOVE:
 		smilleyLove.draw(0, 0, 1280, 1024);
 		break;
-	}
-
-	if (isCrying != true)
-	{
-		//smilleyCrying.draw(999, 999, 1280, 1024);
-
-	}
-	if (isCrying == true)
-	{
-		//smilleyCrying.draw(0, 0, 1280, 1024);
 	}
 
 	if (isTalking != true)

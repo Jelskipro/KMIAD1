@@ -12,10 +12,8 @@ public:
 	void draw();
 
 	bool isTalking;
-	bool isCrying;
 
 	ofVideoPlayer smilleyTalking;
-	ofVideoPlayer smilleyCrying;
 
 	//Basic expressions
 	ofImage smilleyHappy;
