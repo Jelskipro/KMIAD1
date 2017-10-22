@@ -1,5 +1,5 @@
 # Kernmodule Interaction Design 1
-Test
+Foto hier
 # Automotie
 Automotie is een drankautomaat die de illusie geeft dat hij emotie heeft. 
 
