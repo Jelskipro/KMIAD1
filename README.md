@@ -4,7 +4,7 @@
 Automotie is een drankautomaat die de illusie geeft dat hij emotie heeft. 
 
 Filmpje van hoe het prototype werkt:
-LINK HIER!!!!!
+https://youtu.be/sIcHtMzaJXk
 
 De technische onderbouwing staat in de main directory.
 
