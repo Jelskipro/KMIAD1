@@ -42,5 +42,12 @@ class ofApp : public ofBaseApp{
 		ofSpherePrimitive moon;
 		ofSpherePrimitive sun;
 		ofxAssimpModelLoader starDestroyer;
+private:
+	ofArduino arduino;
 
+	void setupArduino(const int& version);
+
+	void ofApp::analogPinChanged(const int& pin);
+
+	void ofApp::digitalPinChanged(const int& pin);
 };

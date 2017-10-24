@@ -14,7 +14,7 @@ void ofApp::setup(){
 	finder.setup("haarcascade_eye.xml");
 	vidGrabber.listDevices();
 	vidGrabber.setVerbose(true);
-	vidGrabber.setDeviceID(2);
+	vidGrabber.setDeviceID(1);
 	vidGrabber.initGrabber(320, 240);
 	colorImg.allocate(320, 240, OF_IMAGE_COLOR);
 	grayImage.allocate(320, 240, OF_IMAGE_GRAYSCALE);

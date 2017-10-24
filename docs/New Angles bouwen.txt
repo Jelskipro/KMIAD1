@@ -1,0 +1,8 @@
+New Angles
+Hardware 
+-	Veel driehoekige RGB LEDjes, verschillende soorten driehoeken
+-	Kinect
+-	Weerstandjes 
+-	Laptop/pc
+Software
+Het Openframeworks programma gebruikt de kinect om de mensen in de ruimte te zien en te herken. De LEDjes zijn in een soort grid geplaatst. In Openframeworks is dit grid naagebouwd, maar dan als een 2d plane. De mensen worden op dit grid geprojecteerd. Daarna wordt er gekeken welke plekken op het grid de textuur van de mens over zich krijgen, en welke niet. Dit wordt dan doorgestuurd naar de LEDjes. Verder kijkt OF naar waar de randen van de mens vorm zich bevinden, deze krijgen een andere kleur qua LED. De andere animaties zijn filmpjes die ook op dit grid worden geprojecteerd. Ook zit er een functie in dit progamma dat kleuren random kiest. 

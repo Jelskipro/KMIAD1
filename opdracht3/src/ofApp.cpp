@@ -64,7 +64,7 @@ void ofApp::analogPinChanged(const int& pin) {
 	radius = arduino.getAnalog(pin) / 19;
 	ofLog() << radius << endl;
 
-	//ofLog() << "Analog pin" << pin << "value : " << arduino.getAnalog(pin) / 19 << endl;
+	ofLog() << "Analog pin" << pin << "value : " << arduino.getAnalog(pin) / 19 << endl;
 }
 void ofApp::digitalPinChanged(const int& pin) {
 	ofLog() << "Digital pin" << pin << "value : " << arduino.getDigital(pin) << endl;

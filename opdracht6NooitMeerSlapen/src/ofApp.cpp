@@ -32,7 +32,8 @@ void ofApp::update(){
 }
 
 void ofApp::draw(){
-	image.draw(0, 0, CAM_WIDTH * 3, CAM_HEIGHT * 3);
+	//Randoms voor spooky teleporting effect
+	image.draw(0, 0, CAM_WIDTH * 3 * ofRandom(3), CAM_HEIGHT * 3 * ofRandom(3));
 }
 
 void ofApp::keyPressed(int key){

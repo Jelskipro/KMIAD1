@@ -13,4 +13,14 @@ class ofApp : public ofBaseApp{
 		
 		ofSoundPlayer voicePlayer[6];
 		bool playing[6];
+		float volume; 
+private:
+	ofArduino arduino;
+
+	void setupArduino(const int& version);
+
+	void ofApp::analogPinChanged(const int& pin);
+
+	void ofApp::digitalPinChanged(const int& pin);
 };
+
